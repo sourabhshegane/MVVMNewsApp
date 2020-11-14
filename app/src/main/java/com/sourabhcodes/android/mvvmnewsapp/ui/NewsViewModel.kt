@@ -1,9 +1,37 @@
 package com.sourabhcodes.android.mvvmnewsapp.ui
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.sourabhcodes.android.mvvmnewsapp.models.NewsResponse
 import com.sourabhcodes.android.mvvmnewsapp.repository.NewsRepository
+import com.sourabhcodes.android.mvvmnewsapp.util.Resource
+import kotlinx.coroutines.launch
+import retrofit2.Response
 
 class NewsViewModel(
-    val repository: NewsRepository
+    private val repository: NewsRepository
 ): ViewModel() {
+
+    val breakingNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
+    private val breakingNewsPage = 1
+
+    init {
+        getBreakingNews("IN")
+    }
+
+    private fun getBreakingNews(countryCode: String) = viewModelScope.launch {
+        breakingNews.postValue(Resource.Loading())
+        val response = repository.getBreakingNews(countryCode, breakingNewsPage)
+        breakingNews.postValue(handleBreakingNewsResponse(response))
+    }
+
+    private fun handleBreakingNewsResponse(response: Response<NewsResponse>): Resource<NewsResponse>{
+        if(response.isSuccessful){
+            response.body() ?.let {
+                return Resource.Success(it)
+            }
+        }
+        return Resource.Error(response.message())
+    }
 }
