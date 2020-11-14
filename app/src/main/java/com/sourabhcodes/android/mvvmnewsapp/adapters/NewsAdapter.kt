@@ -7,11 +7,10 @@ import androidx.recyclerview.widget.*
 import com.bumptech.glide.Glide
 import com.sourabhcodes.android.mvvmnewsapp.R
 import com.sourabhcodes.android.mvvmnewsapp.models.Article
-import com.sourabhcodes.android.mvvmnewsapp.ui.fragments.BreakingNewsFragment
 import kotlinx.android.synthetic.main.item_article_preview.view.*
 
 class NewsAdapter(
-    val articleClicked: OnArticleClicked
+    private val articleClicked: OnArticleClicked
 ): RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {

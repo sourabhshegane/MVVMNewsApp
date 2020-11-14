@@ -3,6 +3,7 @@ package com.sourabhcodes.android.mvvmnewsapp.ui
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sourabhcodes.android.mvvmnewsapp.models.Article
 import com.sourabhcodes.android.mvvmnewsapp.models.NewsResponse
 import com.sourabhcodes.android.mvvmnewsapp.repository.NewsRepository
 import com.sourabhcodes.android.mvvmnewsapp.util.Resource
@@ -52,4 +53,14 @@ class NewsViewModel(
         }
         return Resource.Error(response.message())
     }
+
+    fun saveArticle(article: Article) = viewModelScope.launch {
+        repository.upsertArticle(article)
+    }
+
+    fun deleteArticle(article: Article) = viewModelScope.launch {
+        repository.deleteArticle(article)
+    }
+
+    fun getAllSavedArticles() = repository.getSavedNews()
 }
