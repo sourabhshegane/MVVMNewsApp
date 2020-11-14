@@ -5,15 +5,18 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sourabhcodes.android.mvvmnewsapp.R
 import com.sourabhcodes.android.mvvmnewsapp.adapters.NewsAdapter
+import com.sourabhcodes.android.mvvmnewsapp.models.Article
 import com.sourabhcodes.android.mvvmnewsapp.ui.NewsActivity
 import com.sourabhcodes.android.mvvmnewsapp.ui.NewsViewModel
 import com.sourabhcodes.android.mvvmnewsapp.util.Resource
 import kotlinx.android.synthetic.main.fragment_breaking_news.*
 
-class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
+class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news),
+    NewsAdapter.OnArticleClicked {
     lateinit var viewModel: NewsViewModel
     lateinit var newsAdapter: NewsAdapter
     val TAG = "BreakingNewsFragment"
@@ -53,10 +56,17 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
     }
 
     private fun initRecyclerView(){
-        newsAdapter = NewsAdapter()
+        newsAdapter = NewsAdapter(this)
         rvBreakingNews.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)
         }
+    }
+
+    override fun onArticleClicked(article: Article) {
+        val bundle = Bundle().apply {
+            putSerializable("article", article)
+        }
+        findNavController().navigate(R.id.action_breakingNewsFragment_to_articleFragment, bundle)
     }
 }

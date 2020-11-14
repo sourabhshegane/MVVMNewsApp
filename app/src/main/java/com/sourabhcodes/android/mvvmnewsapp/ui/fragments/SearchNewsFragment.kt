@@ -6,14 +6,15 @@ import android.view.View
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sourabhcodes.android.mvvmnewsapp.R
 import com.sourabhcodes.android.mvvmnewsapp.adapters.NewsAdapter
+import com.sourabhcodes.android.mvvmnewsapp.models.Article
 import com.sourabhcodes.android.mvvmnewsapp.ui.NewsActivity
 import com.sourabhcodes.android.mvvmnewsapp.ui.NewsViewModel
 import com.sourabhcodes.android.mvvmnewsapp.util.Constants
 import com.sourabhcodes.android.mvvmnewsapp.util.Resource
-import kotlinx.android.synthetic.main.fragment_breaking_news.*
 import kotlinx.android.synthetic.main.fragment_breaking_news.paginationProgressBar
 import kotlinx.android.synthetic.main.fragment_search_news.*
 import kotlinx.coroutines.Job
@@ -21,7 +22,7 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class SearchNewsFragment: Fragment(R.layout.fragment_search_news) {
+class SearchNewsFragment: Fragment(R.layout.fragment_search_news), NewsAdapter.OnArticleClicked {
     private val TAG: String = "SearchNewsFragment"
     lateinit var viewModel: NewsViewModel
     private lateinit var newsAdapter: NewsAdapter
@@ -76,10 +77,17 @@ class SearchNewsFragment: Fragment(R.layout.fragment_search_news) {
     }
 
     private fun initRecyclerView(){
-        newsAdapter = NewsAdapter()
+        newsAdapter = NewsAdapter(this)
         rvSearchNews.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)
         }
+    }
+
+    override fun onArticleClicked(article: Article) {
+        val bundle = Bundle().apply {
+            putSerializable("article", article)
+        }
+        findNavController().navigate(R.id.action_searchNewsFragment_to_articleFragment, bundle)
     }
 }
