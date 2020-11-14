@@ -2,7 +2,7 @@ package com.sourabhcodes.android.mvvmnewsapp.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.sourabhcodes.android.mvvmnewsapp.Article
+import com.sourabhcodes.android.mvvmnewsapp.models.Article
 
 @Dao
 interface ArticleDAO {

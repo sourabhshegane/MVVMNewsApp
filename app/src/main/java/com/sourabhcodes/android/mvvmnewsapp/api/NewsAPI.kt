@@ -1,6 +1,6 @@
 package com.sourabhcodes.android.mvvmnewsapp.api
 
-import com.sourabhcodes.android.mvvmnewsapp.NewsResponse
+import com.sourabhcodes.android.mvvmnewsapp.models.NewsResponse
 import com.sourabhcodes.android.mvvmnewsapp.util.Constants
 import retrofit2.Response
 import retrofit2.http.GET

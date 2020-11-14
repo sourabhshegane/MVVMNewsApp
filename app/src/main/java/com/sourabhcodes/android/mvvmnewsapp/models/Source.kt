@@ -1,4 +1,4 @@
-package com.sourabhcodes.android.mvvmnewsapp
+package com.sourabhcodes.android.mvvmnewsapp.models
 
 data class Source(
     val id: Any,
